@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoanController"
+            stylesheets="@application.css" styleClass="root">
+    
+    <!-- Top Header -->
+    <top>
+        <VBox spacing="10" style="-fx-padding: 20 20 0 20;">
+            <Label text="Digital Borrow &amp; Lend Tracker" styleClass="header-label"/>
+            <Separator/>
+        </VBox>
+    </top>
+
+    <!-- Main Content -->
+    <center>
+        <HBox spacing="20" style="-fx-padding: 20;">
+            <!-- Left Side: Table (Loan Records) -->
+            <VBox spacing="10" HBox.hgrow="ALWAYS" styleClass="card">
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <Label text="Loan Records" styleClass="form-title"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <TextField fx:id="searchField" promptText="Search records..." visible="false"/> <!-- Placeholder for future search -->
+                </HBox>
+                
+                <TableView fx:id="loanTable" VBox.vgrow="ALWAYS">
+                    <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                    </columnResizePolicy>
+                    <columns>
+                        <TableColumn fx:id="colId" text="ID" prefWidth="40"/>
+                        <TableColumn fx:id="colBorrower" text="Borrower" prefWidth="120"/>
+                        <TableColumn fx:id="colAmount" text="Amount" prefWidth="80"/>
+                        <TableColumn fx:id="colInterest" text="Int %" prefWidth="50"/>
+                        <TableColumn fx:id="colDate" text="Date" prefWidth="90"/>
+                        <TableColumn fx:id="colDueDate" text="Due Date" prefWidth="90"/>
+                        <TableColumn fx:id="colStatus" text="Status" prefWidth="80"/>
+                        <TableColumn fx:id="colRisk" text="Risk" prefWidth="60"/>
+                    </columns>
+                </TableView>
+
+                <!-- Quick Add Borrower Section (Moved here for better flow) -->
+                <VBox spacing="5" style="-fx-padding: 10 0 0 0;">
+                    <Label text="Add New Borrower" styleClass="form-label" style="-fx-font-weight: bold;"/>
+                    <HBox spacing="10">
+                        <TextField fx:id="newBorrowerName" promptText="Full Name" HBox.hgrow="ALWAYS"/>
+                        <TextField fx:id="newBorrowerContact" promptText="Contact Number" HBox.hgrow="ALWAYS"/>
+                        <Button text="Add Borrower" onAction="#handleAddBorrower" styleClass="button, button-success"/>
+                    </HBox>
+                </VBox>
+            </VBox>
+
+            <!-- Right Side: Form (Loan Details) -->
+            <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;" hbarPolicy="NEVER">
+                <content>
+                    <VBox spacing="15" prefWidth="320" styleClass="card">
+                        <Label text="Loan Details" styleClass="form-title"/>
+                        
+                        <VBox spacing="2">
+                            <Label text="Borrower" styleClass="form-label"/>
+                            <ComboBox fx:id="borrowerCombo" promptText="Select Borrower" maxWidth="Infinity"/>
+                        </VBox>
+
+                        <HBox spacing="10">
+                            <VBox spacing="2" HBox.hgrow="ALWAYS">
+                                <Label text="Amount" styleClass="form-label"/>
+                                <TextField fx:id="amountField" promptText="0.00"/>
+                            </VBox>
+                            <VBox spacing="2" HBox.hgrow="ALWAYS">
+                                <Label text="Interest %" styleClass="form-label"/>
+                                <TextField fx:id="interestField" promptText="0"/>
+                            </VBox>
+                        </HBox>
+
+                        <VBox spacing="2">
+                            <Label text="Due Date" styleClass="form-label"/>
+                            <DatePicker fx:id="dueDatePicker" promptText="Pick a date" maxWidth="Infinity"/>
+                        </VBox>
+
+                        <HBox spacing="10">
+                            <VBox spacing="2" HBox.hgrow="ALWAYS">
+                                <Label text="Status" styleClass="form-label"/>
+                                <ComboBox fx:id="statusCombo" promptText="Pending" maxWidth="Infinity"/>
+                            </VBox>
+                            <VBox spacing="2" HBox.hgrow="ALWAYS">
+                                <Label text="Type" styleClass="form-label"/>
+                                <ComboBox fx:id="typeCombo" promptText="Money" maxWidth="Infinity"/>
+                            </VBox>
+                        </HBox>
+
+                        <VBox spacing="2">
+                            <Label text="Description / Notes" styleClass="form-label"/>
+                            <TextArea fx:id="descArea" promptText="Add optional notes here..." prefRowCount="3" wrapText="true"/>
+                        </VBox>
+
+                        <HBox spacing="10" alignment="CENTER_RIGHT" style="-fx-padding: 10 0 0 0;">
+                            <Button text="Clear" onAction="#handleClearFields" styleClass="button"/>
+                            <Button text="Delete" onAction="#handleDeleteLoan" styleClass="button, button-danger"/>
+                            <Button text="Update" onAction="#handleUpdateLoan" styleClass="button"/>
+                            <Button text="Save Loan" onAction="#handleAddLoan" styleClass="button, button-primary"/>
+                        </HBox>
+
+                        <Separator/>
+
+                        <VBox spacing="5">
+                            <Label text="AI Insights" styleClass="insights-title"/>
+                            
+                            <HBox spacing="5">
+                                <Label text="Risk Assessment:" style="-fx-text-fill: #7f8c8d;"/>
+                                <Label fx:id="riskLabel" text="-" style="-fx-font-weight: bold;"/>
+                            </HBox>
+                            
+                            <Label text="Suggestion:" style="-fx-text-fill: #7f8c8d;"/>
+                            <Label fx:id="suggestionLabel" text="Select a loan to view AI suggestions." wrapText="true" style="-fx-font-style: italic;"/>
+                            
+                            <Label fx:id="reminderLabel" text="" wrapText="true" style="-fx-text-fill: #e74c3c;"/>
+                        </VBox>
+                    </VBox>
+                </content>
+            </ScrollPane>
+        </HBox>
+    </center>
+</BorderPane>
